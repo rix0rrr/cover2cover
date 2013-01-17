@@ -5,13 +5,13 @@ reports.
 
 ## Motivation
 
-I created this script because I wanted code coverage reports in Jenkins[1].
-Since Cobertura[2] doesn't support Java 1.7 or higher (the project seems
-abandoned), we had to use JaCoCo[3], which is great coverage tool and very easy
+I created this script because I wanted code coverage reports in Jenkins[[1]].
+Since Cobertura[[2]] doesn't support Java 1.7 or higher (the project seems
+abandoned), we had to use JaCoCo[[3]], which is great coverage tool and very easy
 to use.
 
-However, the Jenkins JaCoCo plugin[4] leaves a lot to be desired, while Cobertura's
-Jenkins plugin[5] is a lot better. To be precise, it supports:
+However, the Jenkins JaCoCo plugin[[4]] leaves a lot to be desired, while Cobertura's
+Jenkins plugin[[5]] is a lot better. To be precise, it supports:
 
   * Trend graphs for packages, classes, etc. instead of just lines
   * Trend graphs in percentages instead of absolute numbers
@@ -34,8 +34,6 @@ And add the Cobertura plugin with the following path:
     **/target/site/cobertura/coverage.xml
 
 > (Note: The above assumes a Maven project)
-
-## References
 
 [1]: http://jenkins-ci.org/ "Jenkins"
 [2]: http://cobertura.sourceforge.net/ "Cobertura"
