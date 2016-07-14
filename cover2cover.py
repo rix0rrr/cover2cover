@@ -11,11 +11,20 @@ def find_lines(j_package, filename):
     """Return all <line> elements for a given source file in a package."""
     xpath = "sourcefile[@name='" + os.path.basename(filename) + "']/line"
     return list(j_package.findall(xpath))
+    
+def line_is_after(jm, start_line):
+    if ('line' in jm):
+        int(jm.attrib['line']) > start_line
+    else:
+        False
 
 def method_lines(jmethod, jmethods, jlines):
     """Filter the lines from the given set of jlines that apply to the given jmethod."""
-    start_line = int(jmethod.attrib['line'])
-    larger     = list(int(jm.attrib['line']) for jm in jmethods if int(jm.attrib['line']) > start_line)
+    if ('line' in jmethod):
+        start_line = int(jmethod.attrib['line'])
+    else:
+        start_line = 0
+    larger     = list(int(jm.attrib['line']) for jm in jmethods if line_is_after(jm, start_line))
     end_line   = min(larger) if len(larger) else 99999999
 
     for jline in jlines:
