@@ -11,7 +11,7 @@ def find_lines(j_package, filename):
     """Return all <line> elements for a given source file in a package."""
     xpath = "sourcefile[@name='" + os.path.basename(filename) + "']/line"
     return list(j_package.findall(xpath))
-    
+
 def line_is_after(jm, start_line):
     if ('line' in jm):
         int(jm.attrib['line']) > start_line
