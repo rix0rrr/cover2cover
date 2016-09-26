@@ -17,18 +17,12 @@ def find_lines(j_package, filename):
    return lines
 
 def line_is_after(jm, start_line):
-    if ('line' in jm):
-        int(jm.attrib['line']) > start_line
-    else:
-        False
+    return int(jm.attrib.get('line', 0)) > start_line
 
 def method_lines(jmethod, jmethods, jlines):
     """Filter the lines from the given set of jlines that apply to the given jmethod."""
-    if ('line' in jmethod):
-        start_line = int(jmethod.attrib['line'])
-    else:
-        start_line = 0
-    larger     = list(int(jm.attrib['line']) for jm in jmethods if line_is_after(jm, start_line))
+    start_line = int(jmethod.attrib.get('line', 0))
+    larger     = list(int(jm.attrib.get('line', 0)) for jm in jmethods if line_is_after(jm, start_line))
     end_line   = min(larger) if len(larger) else 99999999
 
     for jline in jlines:
@@ -75,13 +69,8 @@ def sum(covered, missed):
     return covered + missed
 
 def counter(source, type, operation=fraction):
-   c = source.find('counter')
-   out_c = None
-   for cs in c:
-       if cs.attrib.get('type') == type:
-           out_c = cs
-           break
-   c = out_c
+   cs = source.findall('counter')
+   c = next((ct for ct in cs if ct.attrib.get('type') == type), None)
 
    if c is not None:
        covered = float(c.attrib['covered'])
