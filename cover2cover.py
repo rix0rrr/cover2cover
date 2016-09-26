@@ -8,13 +8,13 @@ import os.path
 # branch="true" hits="1" number="86"
 
 def find_lines(j_package, filename):
-   """Return all <line> elements for a given source file in a package."""
-   lines = list()
-   sourcefiles = j_package.findall("sourcefile")
-   for sourcefile in sourcefiles:
-       if sourcefile.attrib.get("name") == os.path.basename(filename):
-           lines = lines + sourcefile.findall("line")
-   return lines
+    """Return all <line> elements for a given source file in a package."""
+    lines = list()
+    sourcefiles = j_package.findall("sourcefile")
+    for sourcefile in sourcefiles:
+        if sourcefile.attrib.get("name") == os.path.basename(filename):
+            lines = lines + sourcefile.findall("line")
+    return lines
 
 def line_is_after(jm, start_line):
     return int(jm.attrib.get('line', 0)) > start_line
@@ -69,16 +69,16 @@ def sum(covered, missed):
     return covered + missed
 
 def counter(source, type, operation=fraction):
-   cs = source.findall('counter')
-   c = next((ct for ct in cs if ct.attrib.get('type') == type), None)
+    cs = source.findall('counter')
+    c = next((ct for ct in cs if ct.attrib.get('type') == type), None)
 
-   if c is not None:
-       covered = float(c.attrib['covered'])
-       missed  = float(c.attrib['missed'])
+    if c is not None:
+        covered = float(c.attrib['covered'])
+        missed  = float(c.attrib['missed'])
 
-       return str(operation(covered, missed))
-   else:
-       return '0.0'
+        return str(operation(covered, missed))
+    else:
+        return '0.0'
 
 def convert_method(j_method, j_lines):
     c_method = ET.Element('method')
