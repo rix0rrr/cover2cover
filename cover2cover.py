@@ -8,27 +8,21 @@ import os.path
 # branch="true" hits="1" number="86"
 
 def find_lines(j_package, filename):
-   """Return all <line> elements for a given source file in a package."""
-   lines = list()
-   sourcefiles = j_package.findall("sourcefile")
-   for sourcefile in sourcefiles:
-       if sourcefile.attrib.get("name") == os.path.basename(filename):
-           lines = lines + sourcefile.findall("line")
-   return lines
+    """Return all <line> elements for a given source file in a package."""
+    lines = list()
+    sourcefiles = j_package.findall("sourcefile")
+    for sourcefile in sourcefiles:
+        if sourcefile.attrib.get("name") == os.path.basename(filename):
+            lines = lines + sourcefile.findall("line")
+    return lines
 
 def line_is_after(jm, start_line):
-    if ('line' in jm):
-        int(jm.attrib['line']) > start_line
-    else:
-        False
+    return int(jm.attrib.get('line', 0)) > start_line
 
 def method_lines(jmethod, jmethods, jlines):
     """Filter the lines from the given set of jlines that apply to the given jmethod."""
-    if ('line' in jmethod):
-        start_line = int(jmethod.attrib['line'])
-    else:
-        start_line = 0
-    larger     = list(int(jm.attrib['line']) for jm in jmethods if line_is_after(jm, start_line))
+    start_line = int(jmethod.attrib.get('line', 0))
+    larger     = list(int(jm.attrib.get('line', 0)) for jm in jmethods if line_is_after(jm, start_line))
     end_line   = min(larger) if len(larger) else 99999999
 
     for jline in jlines:
@@ -75,21 +69,16 @@ def sum(covered, missed):
     return covered + missed
 
 def counter(source, type, operation=fraction):
-   c = source.find('counter')
-   out_c = None
-   for cs in c:
-       if cs.attrib.get('type') == type:
-           out_c = cs
-           break
-   c = out_c
+    cs = source.findall('counter')
+    c = next((ct for ct in cs if ct.attrib.get('type') == type), None)
 
-   if c is not None:
-       covered = float(c.attrib['covered'])
-       missed  = float(c.attrib['missed'])
+    if c is not None:
+        covered = float(c.attrib['covered'])
+        missed  = float(c.attrib['missed'])
 
-       return str(operation(covered, missed))
-   else:
-       return '0.0'
+        return str(operation(covered, missed))
+    else:
+        return '0.0'
 
 def convert_method(j_method, j_lines):
     c_method = ET.Element('method')
