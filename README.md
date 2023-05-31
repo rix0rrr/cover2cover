@@ -2,7 +2,8 @@
 
 A script for converting JaCoCo XML coverage reports into Cobertura XML coverage
 reports.
-
+Now support with python3
+branch `python2` support with python2
 ## Motivation
 
 I created this script because I wanted code coverage reports in Jenkins[[1]].
