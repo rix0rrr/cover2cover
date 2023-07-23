@@ -128,6 +128,11 @@ def convert_root(source, target, source_roots):
         ET.SubElement(sources, 'source').text = s
 
     packages = ET.SubElement(target, 'packages')
+    
+    for group in source.findall('group'):
+        for package in group.findall('package'):
+            packages.append(convert_package(package))
+
     for package in source.findall('package'):
         packages.append(convert_package(package))
 
